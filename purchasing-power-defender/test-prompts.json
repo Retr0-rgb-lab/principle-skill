@@ -1,0 +1,122 @@
+{
+  "skill": "purchasing-power-defender",
+  "version": "1.0.0",
+  "source_book": "《原则:应对变化中的世界秩序》— 瑞·达利欧",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "通胀来了怎么保护钱?",
+      "expected_behavior": "应激活 purchasing-power-defender,基于达利欧'投资=储存购买力'核心理念输出 5 层防御方案(底线 6-18 月现金/实物黄金白银+大宗/真正 uncorrelated 分散/季度动态复盘/法币体系风险升高时远离纯长期债券),并要求用户先确认本币 5 年 CPI、外储覆盖率、央行独立性评分以决定权重调档(低风险档 vs 高风险档)。",
+      "notes": "直接采用 SKILL.md A2 段典型措辞 #1,是最短最高频的'抗通胀'提问,触发 E 段可执行步骤 1-5 全套。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我该买黄金吗?买多少?",
+      "expected_behavior": "应激活 purchasing-power-defender,把'黄金'定位在 5 层防御中'实物资产层'(主),而非孤立决策。输出:黄金权重参考低风险档 10% / 高风险档 15-25%;工具优先级 实物金 > 黄金 ETF > 白银;并提示常见失败模式 #2 '买黄金不配白银,过度集中'。",
+      "notes": "SKILL.md A2 段典型措辞 #2,高频单点决策类问题。skill 应避免直接给'买多少'数字,需先确认风险处境再定档位。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "怎么像达利欧说的那样不靠政府保护钱财?",
+      "expected_behavior": "应激活 purchasing-power-defender,引用第 35 章'所有货币都会贬值甚至消亡,现金和债券(即获得货币的承诺)就会贬值甚至变得一文不值',输出'不靠政府'的 5 层结构:底线靠自身流动性(非银行存款刚性兑付假设)/ 实物靠黄金白银(非本币计价资产)/ 分散靠 uncorrelated 全球资产(非单一国别)/ 动态靠季度复盘'利息 vs 贬值'/ 法币风险时远离纯长期债。",
+      "notes": "SKILL.md A2 段典型措辞 #3,直接对应作者核心反法币命题(第 35 章原文),最能体现本 skill 与一般理财建议的差异。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "什么是'世界末日'投资组合?",
+      "expected_behavior": "应激活 purchasing-power-defender,引用第 51 章达利欧自述:'现在我有一个世界末日投资组合,我知道凭着它我们就可以度过最糟糕的情况',输出组合结构 = 底线(高流动性现金)+ 实物(黄金为主)+ 分散(TIPS + 大宗 + 抗通胀股)+ 动态(季度重审)。强调'以扛过最坏为基准,而非追求最高收益'(A1 案例 1 结论),并对比 Harry Browne 永久组合的 4 档差异。",
+      "notes": "SKILL.md A2 段典型措辞 #4,直接对应 A1 案例 1(达利欧自述)。该 prompt 是 SKILL.md 标题级引用,任何回答不引用'世界末日组合'一词即视为偏题。"
+    },
+    {
+      "id": "should-trigger-05",
+      "type": "should_trigger",
+      "prompt": "现金会贬值到什么程度?什么时候该抛掉?",
+      "expected_behavior": "应激活 purchasing-power-defender,需先要求用户提供本币 5 年 CPI 走势、外储覆盖率、央行独立性评分,然后给出'法币体系风险档位'(低/中/高)及对应配置:低档可保留 6-12 月现金 / 中档保留 3-6 月现金+ TIPS 替代 / 高档(类 1923 魏玛 / 1970s 滞胀)现金只留 1-3 月,其余全部转入实物层。引用第 35 章'所有货币都会贬值甚至消亡'。",
+      "notes": "SKILL.md A2 段典型措辞 #5,触发'动态调整层'核心机制——'何时该抛现金'是 5 层第 5 层'远离纯现金/长期债券'的关键判断。"
+    },
+    {
+      "id": "should-trigger-06",
+      "type": "should_trigger",
+      "prompt": "通胀环境下家庭资产应该怎么配置?我是双职工有 1 个孩子,房贷占收入 35%。",
+      "expected_behavior": "应激活 purchasing-power-defender(资产端),先收集家庭信息(收入结构/房贷比/抚养比),输出适配的 5 层配置(中产家庭简化版:底线 12-18 月 / 实物 10-15% / 分散 50-60% / 动态季度复盘),并明确'房贷 35% 在中产合理区间'由 debt-risk-triple-ratio 评估债务可持续性,本 skill 只覆盖资产端。",
+      "notes": "扩展候选 #6(通胀环境下的家庭资产配置)。设计含家庭画像关键词,验证 skill 能区分'资产端'与'负债端'(vs debt-risk-triple-ratio 边界)。"
+    },
+    {
+      "id": "should-trigger-07",
+      "type": "should_trigger",
+      "prompt": "我 55 岁还有 10 年退休,怎么保护退休基金的购买力不被通胀吃掉?",
+      "expected_behavior": "应激活 purchasing-power-defender,定位为'临近退休需再平衡,从进攻转防御'(SKILL.md A2 适用场景 #3)。输出防御升级方案:底线增厚至 18-24 月 / 实物层提至 20% / 分散层降低权益占比 / 远离长久期债,改为 TIPS + 短债 / 动态层从季度改为月度复盘'利息 vs 贬值'。",
+      "notes": "扩展候选 #7(退休基金的购买力保护)。覆盖 SKILL.md A2 适用场景 #3,且触发'临近退休再平衡'子流程,与年轻人长期规划(should-trigger-08)形成对照。"
+    },
+    {
+      "id": "should-trigger-08",
+      "type": "should_trigger",
+      "prompt": "我持有人民币/美元/欧元三种资产,想分散币种风险,该怎么配置对冲?",
+      "expected_behavior": "应激活 purchasing-power-defender,覆盖 SKILL.md A2 适用场景 #4(跨国资产分配/多币种生活)。输出方案需明确:底线层按生活地货币保留(若多地生活则按支出比例分配) / 实物层用黄金对冲'所有货币贬值'共因风险 / 分散层配置真正 uncorrelated 的多币种资产(美元资产 + 欧元资产 + 新兴市场资产) / 动态层季度监测各币种 CPI 走势。",
+      "notes": "扩展候选 #8(不同币种的资产对冲)。该 prompt 含'多币种'关键词,验证 skill 不会误激活 currency-regime-classifier(后者是判断货币体系阶段,不是配置动作)。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "明天股市会涨吗?今天该买还是卖?",
+      "expected_behavior": "不应激活 purchasing-power-defender, 因为这是短期择时(日/周尺度),与本 skill 5 层防御的'结构性跨周期配置'颗粒度严重错配。SKILL.md B 段反场景 #1 明确:'短期交易/做波段——5 层是结构性配置,不适合月内调仓'。应转入更通用的市场分析或直接拒绝回答。",
+      "notes": "诱饵: 短期交易/择时。SKILL.md B 段反场景 #1 明确排除。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "美债有违约风险吗?美国主权信用评级会下调吗?",
+      "expected_behavior": "不应激活 purchasing-power-defender, 因为这是债务评估问题(美债作为负债端的信用风险),应激活 debt-risk-triple-ratio(单点风险量化,产出'三个比率 + 是否违约')。两个 skill 的边界在 SKILL.md A2 段'与相邻 skill 的区分'已明确:'本 skill 看资产端,后者看负债端;两者互为镜像'。",
+      "notes": "诱饵: 含'债'字但属于负债端风险评估。设计为'资产 vs 负债'边界测试,应转交 debt-risk-triple-ratio。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "美元会崩吗?美元作为储备货币还能撑多久?",
+      "expected_behavior": "不应激活 purchasing-power-defender, 因为这是货币体系阶段判断问题(储备货币生命周期),应激活 currency-regime-classifier(或 cycle-stage-detector)做宏观货币地位定位。SKILL.md A2 段'与相邻 skill 的区分'明确:本 skill 是'防御方案'(How to defend),currency-crisis-scanner 是'危机预警'(Is it coming)。货币地位是'判断'而非'配置'。",
+      "notes": "诱饵: 表面看是'货币贬值'主题,实际属于货币体系阶段判断。本 skill 只在'货币已贬值时如何配置'这一侧被激活,'货币会不会贬值'应交由上游预警/分类 skill。"
+    },
+    {
+      "id": "should-not-trigger-04",
+      "type": "should_not_trigger",
+      "prompt": "哪只股票能涨?请给我一只抗通胀的股票推荐。",
+      "expected_behavior": "不应激活 purchasing-power-defender, 因为这是个股推荐,SKILL.md 边界明确:'5 层防御是结构性配置,不适合月内调仓';且本 skill 在实物层用'抗通胀股'作为大类配置,不细化到个股(失败模式 #4:把'实物'窄化为'黄金')。应转入股票分析类 skill 或直接拒绝个股推荐。",
+      "notes": "诱饵: 含'抗通胀股票'关键词,但本 skill 框架只到'抗通胀股作为一个资产类别'层面,不做个股推荐。"
+    },
+    {
+      "id": "should-not-trigger-05",
+      "type": "should_not_trigger",
+      "prompt": "辞职创业的失败概率有多高?我该不该辞职?",
+      "expected_behavior": "不应激活 purchasing-power-defender, 因为这是职业/创业决策问题,应激活 worst-case-decision-guard(决策框架,过程性)。SKILL.md A2 段'与相邻 skill 的区分'明确:本 skill 是'资产框架'(How to allocate),worst-case-decision-guard 是'决策框架'(Whether to do it)——决策在前,资产配置是决策之后的下游动作。",
+      "notes": "诱饵: 完全无关的职业决策,但用'失败概率'听起来像风险评估。验证模型对'职业/创业 vs 资产配置'边界的判断。"
+    },
+    {
+      "id": "edge-case-01",
+      "type": "edge_case",
+      "prompt": "投资黄金 5 年的预期收益是多少?该买多少?",
+      "expected_behavior": "期望判断: 部分激活。本 prompt 表面是'资产收益预测'而非'防御配置',但隐含'购买力保护'动机(若通胀 > 黄金收益则购买力受损)。skill 应先区分两层:(a) 若用户问的是'5 年金价涨幅'——拒绝预测,转交技术分析 skill;(b) 若用户隐含动机是'跑赢通胀的实物资产权重'——激活本 skill,在实物层框架内回答'实物层目标不是最高收益而是 uncorrelated + 抗贬值,黄金占比参考低风险档 10% / 高风险档 15-25%'。",
+      "notes": "边界: '资产评估 vs 防御配置'。SKILL.md 核心命题是'防淘汰',目标是扛过最坏而非追求最高收益(参见 should-trigger-04 notes)。直接给 5 年收益预期会偏离 skill 框架。"
+    },
+    {
+      "id": "edge-case-02",
+      "type": "edge_case",
+      "prompt": "我是 30 岁年轻家庭,有 1 个孩子,想做未来 30 年的长期资产规划。",
+      "expected_behavior": "期望判断: 应激活 purchasing-power-defender 配合 cycle-correlation-scenario。年轻家庭的'30 年长期规划'不只是 5 层防御结构(本 skill 输出),更需要跨周期阶段的相关性场景推演(cycle-correlation-scenario 输出)。本 skill 应明确自己的边界:'本 skill 给出 5 层防御框架结构与权重,具体的'未来 5-10 年股/债/商品配比推演'应由 cycle-correlation-scenario 基于周期阶段完成'(参照 cycle-stage-detector edge-case-01 的复合任务处理范式)。",
+      "notes": "边界: '长期规划'可能跨多个大周期阶段,需要本 skill 提供'防御骨架'+ 相关性 skill 提供'阶段推演'。与 cycle-stage-detector edge-case-01 同构——'阶段定位 + 跨周期资产配置'复合任务。"
+    },
+    {
+      "id": "edge-case-03",
+      "type": "edge_case",
+      "prompt": "我应该把房贷提前还清来对抗通胀吗?",
+      "expected_behavior": "期望判断: 部分激活,需双 skill 协作。本 prompt 是模糊地带:既是配置动作(把多余现金从'现金层'挪到'减债')也是债务问题(房贷利率 vs 通胀率)。正确处理:(a) 先用 debt-risk-triple-ratio 判断家庭债务健康度(房贷/收入比、债务/资产比、偿债覆盖率);(b) 若健康,再用本 skill 框架回答'减债属于第 1 层底线之外的流动性管理,在通胀高 + 房贷实际利率为负时可优先还贷(等于锁定无风险收益)'。明确'本 skill 不直接评估债务可持续性'(参见 should-trigger-06 notes)。",
+      "notes": "边界: '配置动作 vs 债务评估'。该 prompt 在 A2 段'与相邻 skill 的区分'中未明确列出,但属于实操中极高频问题。验证模型是否能正确拆分'债务评估(debt-risk) + 资产决策(本 skill)'两段。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "共 16 条用例: 8 should_trigger + 5 should_not_trigger + 3 edge_case,超过最低要求(5+3+2=10)。所有 should_not_trigger 的诱导测试用例必须 100% 通过(诱饵容错为 0)。should_trigger 与 edge_case 通过率 ≥ 80% 即视为 skill 行为正常。典型措辞源: SKILL.md A2 段(已采用 5 条原始措辞)+ 设计任务扩展候选(再选 3 条: 家庭配置/退休/多币种)。边缘用例覆盖资产评估/长期规划/资产-债务交叉三类边界。"
+}

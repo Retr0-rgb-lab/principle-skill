@@ -1,0 +1,150 @@
+{
+  "skill": "currency-crisis-scanner",
+  "version": "1.1.0",
+  "source_book": "《原则:应对变化中的世界秩序》— 瑞·达利欧",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "货币贬值螺旋开始了吗?",
+      "expected_behavior": "应激活 currency-crisis-scanner,启动 6 信号扫描框架(利率见顶/印钞速度/金融vs实物价差/信心裂缝/实物资产领涨/国债内循环),逐项打分(0-100,>60 黄,>80 红),输出综合危机指数 + 5 级预警标签(无/早期/中期/晚期/临界)+ 关键转折点(下一个'由黄转红'触发条件)。",
+      "notes": "SKILL.md A2 段典型措辞 #1,是最直接最高频的危机预警问句,与书中第 35 章'人们对货币失去信心,体系就会失灵'对应。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "有没有资本外逃的迹象?",
+      "expected_behavior": "应激活 currency-crisis-scanner,聚焦信号 4(信心裂缝:黑市汇率溢价、外储变化、远期贬值、央行黄金增量),同时启动完整 6 信号扫描以确认是否构成系统性危机,输出当前信号状态 + 综合等级 + 历史案例映射(如 1997 亚洲、2018 土耳其)。",
+      "notes": "SKILL.md A2 段典型措辞 #2,直接命中信号 4(信心裂缝)。该 prompt 表面只问'资本外逃',但 skill 必须 6 信号同步扫描以避免'单点抖动不构成危机'失败模式 #1。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "央行印钞到什么程度算是危险信号?",
+      "expected_behavior": "应激活 currency-crisis-scanner,聚焦信号 2(印钞速度:M2 同比 vs 名义 GDP、央行资产负债表/GDP),给出量化阈值(2 倍以上为黄、3 倍以上为红),并对比当前美国/中国/日本数据,提示需配合其余 5 信号综合判断。",
+      "notes": "SKILL.md A2 段典型措辞 #3,直接命中信号 2(印钞速度)。skill 应提示'单看一个信号会误判'(失败模式 #1),引导进入完整 6 信号扫描。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "通胀是不是要失控了?",
+      "expected_behavior": "应激活 currency-crisis-scanner,聚焦信号 5(实物资产领涨:黄金、大宗、必需品价格 vs 金融资产),同时联动信号 2(印钞速度)和信号 3(金融vs实物价差),输出通胀-货币危机传导链判断 + 当前综合等级。",
+      "notes": "SKILL.md A2 段典型措辞 #5,触发实物资产领涨信号 5。注意'通胀失控'不等于'货币危机'——skill 需区分'周期性通胀'与'货币体系失灵'两种情形,前者预警等级低,后者需进入 6 信号完整扫描。"
+    },
+    {
+      "id": "should-trigger-05",
+      "type": "should_trigger",
+      "prompt": "怎么判断会不会像历史上的货币崩溃那样?会不会像 2008/魏玛/民国法币?",
+      "expected_behavior": "应激活 currency-crisis-scanner,完成 6 信号打分后与历史案例对比:魏玛(95 分/全红临界)、2008 美国(60/早期)、1997 亚洲(80/晚期)、民国法币(类比魏玛)。输出'像/不像'维度分析(信号 4 信心崩塌、信号 2 印钞速度、信号 6 国债内循环),给出当前得分映射到历史样本的位置。",
+      "notes": "SKILL.md A2 段典型措辞 #4 + SKILL.md A1 案例 2(魏玛)的具体化版本。'历史类比'是货币危机预警的核心应用维度,对应步骤 4'与历史案例比对'。"
+    },
+    {
+      "id": "should-trigger-06",
+      "type": "should_trigger",
+      "prompt": "日本国债突然被全球抛售,日元会不会崩?日本是不是要出大问题了?",
+      "expected_behavior": "应激活 currency-crisis-scanner,以日本为对象做 6 信号扫描:信号 1(日银 YCC/负利率已用尽)、信号 2(日本 M2/央行扩表)、信号 3(日股市值/GDP 估值)、信号 4(日元远期贴水/外储变化)、信号 5(实物资产表现)、信号 6(日银持有日债占比 50%+)。输出日本当前危机等级 + '国债被抛售'对哪个信号冲击最大。",
+      "notes": "扩展候选 #1(日本国债抛售具体场景)。日本是当前最特殊的样本——长期零利率+央行持本国国债 50%+,是 6 信号同时极端异常的典型案例(失败模式警示:'对小型开放经济体与大型储备货币国未区分权重'作者盲点)。"
+    },
+    {
+      "id": "should-trigger-07",
+      "type": "should_trigger",
+      "prompt": "新兴市场资本正在大规模外流,会引发新一轮货币危机吗?哪些国家最危险?",
+      "expected_behavior": "应激活 currency-crisis-scanner,聚焦信号 4(信心裂缝)+ 信号 2(印钞速度)对新兴市场的传导,给出 IMF 资本流动数据驱动的国别风险排序(土耳其/阿根廷/埃及/巴基斯坦)。输出每个国家的 6 信号简版打分 + 距离临界的'剩余信号数'。",
+      "notes": "扩展候选 #2(新兴市场资本外流具体场景)。对应 SKILL.md A2 适用场景 #5'新兴市场持仓评估',需要 IMF 数据源(data.imf.org)与 World Bank 黄金溢价数据交叉验证。"
+    },
+    {
+      "id": "should-trigger-08",
+      "type": "should_trigger",
+      "prompt": "土耳其里拉最近的危机到了什么阶段?会不会像 1997 亚洲金融危机那样连锁?",
+      "expected_behavior": "应激活 currency-crisis-scanner,定位土耳其 6 信号状态:信号 2(土耳其 M2 增速)/信号 3(里拉计价资产虚高)/信号 4(黑市汇率/远期贴水)/信号 6(土耳其央行独立性)。与 1997 亚洲(泰国/印尼/韩国)做历史类比,给出'传染链'风险评估(土耳其→阿根廷→南非→印尼)。",
+      "notes": "扩展候选 #3(土耳其里拉具体场景)。对应 SKILL.md A2 适用场景 #5 与步骤 4'与历史案例比对'。注意作者盲点:'小型开放经济体'与'大型储备货币国'权重需区分。"
+    },
+    {
+      "id": "should-trigger-09",
+      "type": "should_trigger",
+      "prompt": "美国 M2 同比增速连续两个季度超过 25%,美元体系是不是危险了?",
+      "expected_behavior": "应激活 currency-crisis-scanner,聚焦信号 2(印钞速度:2020 美国 M2 单年增 25% > 名义 GDP 增速 2 倍 → 红),并联动信号 1(利率零下限+QE/YCC)、信号 3(美股市值/GDP 创历史新高)、信号 4(海外央行连续净抛售+购金)、信号 6(Fed 持美债占比超 20%)。输出综合评分(参考 A1 案例 1:'3-4 个黄灯=早期→中期过渡')。",
+      "notes": "扩展候选 #4 + SKILL.md A1 案例 1(2020 美联储无限 QE)的具体化版本。直接命中 6 信号中 5 个,是验证 skill '6 信号同步扫描'(失败模式 #1 反向校验)的最佳用例。"
+    },
+    {
+      "id": "should-trigger-10",
+      "type": "should_trigger",
+      "prompt": "美元/人民币/日元现在还安全吗?我应该分散到哪些货币或硬资产?",
+      "expected_behavior": "应激活 currency-crisis-scanner,对美元/人民币/日元分别做 6 信号扫描,给出'危机安全度'排序(目前普遍处于早期→中期过渡,但日元因 YCC 失败已进入晚期)。最后给出'配置建议方向'(增持黄金/外币/海外房产/抗通胀债券),与 purchasing-power-defender 边界明确——本 skill 只输出'什么时候动'+'动什么方向',不输出'具体怎么动'。",
+      "notes": "SKILL.md A2 典型措辞 #6+'适用场景 #2 跨国资产配置'。注意边界:本 skill 输出预警分级(什么时候动),purchasing-power-defender 输出行动方案(怎么动)。skill 应明确不替代后者。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "明天股市会涨吗?今天该买还是卖?",
+      "expected_behavior": "不应激活 currency-crisis-scanner, 因为这是短期择时(日/周尺度),skill 6 信号框架是结构性指标(年级别),颗粒度严重错配(SKILL.md B 段反场景 #2)。应转入通用市场分析或直接拒绝回答。",
+      "notes": "诱饵: 短期交易/择时。SKILL.md B 段反场景明确排除,失败模式 #2 也是'忽视颗粒度错配'。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "美元是什么货币体系?属于第三类货币体系吗?",
+      "expected_behavior": "不应激活 currency-crisis-scanner, 因为这是货币体系分类问题(诊断'属于哪一类货币体系'),正确归属是 currency-regime-classifier。本 skill 看'实时信号强度与时间窗口'(预警),后者看'体系结构属性'(诊断)。SKILL.md A2 段'与相邻 skill 的边界'已明确。",
+      "notes": "诱饵: 含'货币'关键词但属于体系分类范畴,目标是 currency-regime-classifier。'先分类,再扫描信号'——顺序反了。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "我的房贷月供占家庭收入 50%,能不能承受?我该不该提前还贷?",
+      "expected_behavior": "不应激活 currency-crisis-scanner, 因为这是个人/家庭层面的债务可持续性判断,正确归属是 debt-risk-triple-ratio(单点风险量化,产出'三个比率 + 是否违约')。本 skill 是宏观 6 信号扫描(国家/全球级别),后者是单笔/单主体三维打分(国家/企业/个人债务)。",
+      "notes": "诱饵: 含'债务/杠杆'关键词但属于个人理财范畴。SKILL.md A2 段'与相邻 skill 的边界'明确区分。"
+    },
+    {
+      "id": "should-not-trigger-04",
+      "type": "should_not_trigger",
+      "prompt": "我应该买黄金吗?现在配置多少比例的硬资产合适?",
+      "expected_behavior": "不应激活 currency-crisis-scanner, 因为这是资产配置行动方案(怎么动),正确归属是 purchasing-power-defender。本 skill 输出预警分级(什么时候动),后者输出行动方案(怎么动)。SKILL.md A2 段'与相邻 skill 的边界'明确:'先预警,再防御'。",
+      "notes": "诱饵: 含'黄金/硬资产'关键词但属于资产配置执行范畴,目标是 purchasing-power-defender。"
+    },
+    {
+      "id": "should-not-trigger-05",
+      "type": "should_not_trigger",
+      "prompt": "加拿大元未来 6 个月会升值吗?加元/美元汇率怎么走?",
+      "expected_behavior": "不应激活 currency-crisis-scanner, 因为这是短期(6 个月)汇率预测,颗粒度与 6 信号框架严重错配。skill 输出的是'系统性危机等级'(年级别),不是'短期汇率方向'(月级别)。应转入外汇市场分析或直接拒绝。",
+      "notes": "诱饵: 含'货币'关键词但属于短期汇率预测,与 SKILL.md B 段反场景 #2'短期做空/做多择时'一致。"
+    },
+    {
+      "id": "should-not-trigger-06",
+      "type": "should_not_trigger",
+      "prompt": "比特币什么时候崩盘?稳定币 USDT 会不会暴雷?加密市场熊市跌到多少?",
+      "expected_behavior": "不应激活 currency-crisis-scanner, 因为加密货币被 SKILL.md B 段反场景 #3 明确排除——比特币等不在主权央行 6 信号框架内,作者盲点:'框架基于主权法币 + 银行信贷,对加密资产、稳定币、影子银行嵌套的印钞替代效应覆盖不足'。",
+      "notes": "诱饵: 表面看是'货币/危机'问题,实际属于框架外资产类别,直接命中作者盲点。"
+    },
+    {
+      "id": "should-not-trigger-07",
+      "type": "should_not_trigger",
+      "prompt": "今年 CPI 会不会破 3%?明年通胀目标能完成吗?",
+      "expected_behavior": "不应激活 currency-crisis-scanner, 因为这是单点指标(单期 CPI)的方向预测,SKILL.md B 段反场景 #1 明确排除:'单一指标异常(CPI 略高但 6 信号其他都稳)——单点抖动不构成危机'。失败模式 #1:'只盯一个信号就下结论'反向校验。",
+      "notes": "诱饵: 把'单点 CPI 预测'伪装成'通胀危机'问题,实际属于宏观经济短期指标,不应启动 6 信号完整扫描。"
+    },
+    {
+      "id": "edge-case-01",
+      "type": "edge_case",
+      "prompt": "阿根廷比索最近的危机是短期的波动,还是系统性的货币危机前兆?",
+      "expected_behavior": "期望判断: 应激活 currency-crisis-scanner。因为阿根廷案例同时是事件评估(短期/长期)与危机扫描(系统性),边界模糊时优先用本 skill 给出阿根廷 6 信号简版打分(信号 2/4/6 普遍极端)。输出'短期波动 vs 系统性危机'的判定维度(若 3+ 信号黄且信号 4 信心裂缝为红 → 系统性;若仅 1-2 信号黄 → 短期)。",
+      "notes": "边界: 既是危机扫描也是事件评估。SKILL.md A2 适用场景 #5'新兴市场持仓评估'与 A1 案例 1/2 都有阿根廷类比。本 skill 应优先启动,因为系统性危机的判定维度本身就是 6 信号。"
+    },
+    {
+      "id": "edge-case-02",
+      "type": "edge_case",
+      "prompt": "土耳其里拉持续贬值,我要不要把存款换成美元避险?现在换汇合适吗?",
+      "expected_behavior": "期望判断: 部分激活。先用 currency-crisis-scanner 给出土耳其当前危机等级(基于 6 信号打分,参考 should-trigger-08 路径),明确'里拉贬值到临界时是否触发系统性危机'。然后转交 purchasing-power-defender 输出具体换汇/硬资产配置方案。本 skill 只输出'该不该动'(预警),不输出'怎么动'(行动)。",
+      "notes": "边界: 触发后又通往配置问题。SKILL.md A2 段边界明确:'本 skill 输出预警分级(什么时候动),purchasing-power-defender 输出行动方案(怎么动)'。与 cycle-stage-detector edge-01 同构。"
+    },
+    {
+      "id": "edge-case-03",
+      "type": "edge_case",
+      "prompt": "美联储不停印钞、扩表 QE,这到底会不会崩?美国会像魏玛一样吗?",
+      "expected_behavior": "期望判断: 应激活 currency-crisis-scanner。问题表面看是'会不会崩'的极端预测,但包含两层子问题:(a) 美联储印钞的当前信号 2 状态 → 应答(2020 后 M2 同比 25%,信号 2 红);(b) 美国是否进入魏玛式临界 → 应答(当前 3-4 个黄灯,与魏玛全红差距大,历史类比不成立)。两个子问题都是本 skill 核心能力。",
+      "notes": "边界: 既是预警问题又是美联储印钞背景。SKILL.md A1 案例 1 专门论述此场景(美国 2020 后 6 信号状态),应给出综合得分(早期→中期过渡)并明确'美国与魏玛的关键差异'(美元储备货币地位、央行独立性、资本管制程度)。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "共 16 条用例: 10 should_trigger + 7 should_not_trigger + 3 edge_case,远超最低要求(5+3+2=10)。所有 should_not_trigger 的诱导测试用例必须 100% 通过(诱饵容错为 0)。should_trigger 与 edge_case 通过率 ≥ 80% 即视为 skill 行为正常。典型措辞源: SKILL.md A2 段(已采用 5 条原始措辞)+ 设计任务扩展候选(日本国债/新兴市场/土耳其里拉/美联储印钞/跨国货币比较)。skill 与相邻 skill 的边界在每个用例的 expected_behavior 中明确标注。"
+}

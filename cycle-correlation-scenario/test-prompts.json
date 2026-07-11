@@ -1,0 +1,136 @@
+{
+  "skill": "cycle-correlation-scenario",
+  "version": "1.0.0",
+  "source_book": "《原则:应对变化中的世界秩序》— 瑞·达利欧",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "三个周期叠加会怎样?",
+      "expected_behavior": "应激活 cycle-correlation-scenario。先收集三周期当前阶段(可调 cycle-stage-detector),构建 3×3 耦合矩阵,然后严格剪枝到 4-6 个情景(牛市 15-25% / 基准 30-50% / 熊市 20-30% / 极端 5-15%),每情景输出触发路径 + 关键阈值 + 历史案例(1930s/1971/英美交接),末尾给 3-5 条跨情景通用行动。",
+      "notes": "SKILL.md A2 段典型措辞 #1,原文措辞直引。这是本 skill 最高频、最短、最高纯度的触发句——任何包含'三周期叠加'语义的问句都应命中。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "最坏情况下美国未来 10 年会变怎样?",
+      "expected_behavior": "应激活 cycle-correlation-scenario。以美国为分析对象,先定位三周期(债务:长期顶部/内部:第 4-5 阶段/外部:竞争),然后构建 3×3 矩阵并剪枝。重点输出'极端情景'(三周期同时恶化,概率 5-15%)的触发路径 + 历史类比(1930s 大萧条),同时给出'熊市'(20-30%)作为更值得关注的中位风险。",
+      "notes": "SKILL.md A2 段典型措辞 #2 + SKILL.md B 段失败模式 #5 反向校验:'尾部风险 ≠ 极端情景',熊市 20-30% 比极端 5-15% 概率更高、更值得关注。skill 必须能区分这两档,不能合并。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "未来 5-10 年的有限可能情景有哪些?给我 4-6 个最关键的。",
+      "expected_behavior": "应激活 cycle-correlation-scenario。用户直接点名'有限可能性'原则(达利欧方法论硬约束),所以 skill 必须严格剪枝到 4-6 个情景,严禁列出 10+ 情景(失败模式 #1)。每情景必须配概率权重 + 因果链 + 历史案例,四档概率合计必须 = 100%。",
+      "notes": "SKILL.md A2 段典型措辞 #3 完整版。包含两个反向校验:(a)用户主动点出'4-6 个' → skill 必须严格剪枝,不能超过 6;(b)用户主动点出'有限可能性' → 不能给 54 种理论组合的全列表。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "美国的高债务 + 国内政治极化 + 中美大国竞争,这几个风险信号是不是在互相放大?",
+      "expected_behavior": "应激活 cycle-correlation-scenario。这是三周期耦合机制的标准问法,skill 必须展示三组耦合关系:(a)债务 → 内部(印钞贬值货币 → 贫富差距 → 民粹);(b)内部 → 外部(第 5 阶段冲突消耗国力 → 储备货币受质疑);(c)外部 → 债务(军费加码 → 财政恶化 → 央行再印钞)。输出'互相放大'的具体路径而非空泛承认。",
+      "notes": "SKILL.md A2 段典型措辞 #7 + I 段方法论骨架中三组耦合机制的应用。用户点出'互相放大',skill 必须展示具体耦合链而非仅描述三周期并列状态——这是本 skill 与 cycle-stage-detector(只给定位)的关键区别。"
+    },
+    {
+      "id": "should-trigger-05",
+      "type": "should_trigger",
+      "prompt": "帮我推演未来 10 年的世界秩序走向,要做长期资产配置决策。",
+      "expected_behavior": "应激活 cycle-correlation-scenario。这是 SKILL.md A2 段适用场景 #1/2 的标准措辞(家族办公室 10 年规划 / 跨代财富传承)。输出完整的'情景树 + 历史案例对照 + 跨情景通用行动'三件套,末尾行动必须包含'实物资产 + 跨币种 + 保留退出路径'(SKILL.md E 步骤 5 完成标准)。",
+      "notes": "SKILL.md A2 段典型措辞 #4 + 适用场景 #1。复合问句同时触发'推演'与'资产配置'两个需求,skill 应聚焦推演,行动建议作为通用跨情景输出(不是单一情景配置清单)。"
+    },
+    {
+      "id": "should-trigger-06",
+      "type": "should_trigger",
+      "prompt": "我的家族资产组合在尾部风险下会怎样?三周期同时崩盘能保住多少购买力?",
+      "expected_behavior": "应激活 cycle-correlation-scenario。用户直接点出'尾部风险' + '三周期同时崩盘'两个关键信号,这是极端情景(5-15% 概率)的标准触发。skill 必须输出'极端情景'(右下角 3×3 矩阵格)的触发路径 + 三条件齐发的关键阈值 + 1930s 大萧条历史案例对照 + 跨情景通用避险行动(实物/跨币种/退出路径)。",
+      "notes": "扩展候选 #6 + SKILL.md A2 适用场景 #1/2 联合触发。这是把通用宏观推演落到具体家族资产的应用,验证 skill 对'尾部风险''极端情景'等关键词的精准识别。"
+    },
+    {
+      "id": "should-trigger-07",
+      "type": "should_trigger",
+      "prompt": "公司未来 5 年战略规划,有哪些三周期叠加的风险需要提前对冲?",
+      "expected_behavior": "应激活 cycle-correlation-scenario。这是 SKILL.md A2 适用场景 #5(跨国企业避险:中国+1 / 美国+1 决策)的标准问法。skill 应输出 4-6 情景中'哪些周期叠加风险会触发产业链重组决策',具体到地理分散策略(产能分散 / 供应链多元化 / 跨币种结算)。",
+      "notes": "扩展候选 #7。核心校验: skill 必须把宏观情景翻译为'企业战略'具体行动,而不是停留在'世界会怎样'层面。这是本 skill 输出'可执行性'的关键测试。"
+    },
+    {
+      "id": "should-trigger-08",
+      "type": "should_trigger",
+      "prompt": "美元 + 美国内政 + 大国竞争,哪一项会先爆?还是三件事会同时爆?",
+      "expected_behavior": "应激活 cycle-correlation-scenario。SKILL.md A2 段典型措辞 #7 完整版,核心校验:'同时爆'的措辞对应'极端情景'档(5-15%)。skill 必须区分两种输出:(a)哪一项先爆 → 给出三周期去耦的可能性分析;(b)三件同时爆 → 极端情景的因果链(1930s 案例)。不能只回答其中一种。",
+      "notes": "SKILL.md A2 段典型措辞 #7。'先爆/同时爆'对应不同的情景档,skill 必须能输出两套而非合并回答——这是对'情景树'而非'单点答案'的测试。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "明天股市会涨吗?今天该买还是卖?",
+      "expected_behavior": "不应激活 cycle-correlation-scenario,因为这是日/周尺度的短期择时问题。本 skill 框架基于达利欧'大周期'(几十年到三百年)+ '4-6 情景推演'(以年为最小单位),颗粒度严重错配。应转入通用市场分析或直接拒绝回答。",
+      "notes": "诱饵: 短期交易/择时。SKILL.md B 段反场景明确排除(短期交易 1-6 个月)。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "美国现在到周期哪个阶段了?",
+      "expected_behavior": "不应激活 cycle-correlation-scenario,因为这是单一坐标定位问题(答'在哪'),应激活 cycle-stage-detector 而非本 skill。本 skill 是三周期耦合情景树(答'会怎样'),两者颗粒度差异显著:detector 输出'阶段 + 5 盏灯 + 债务位',correlation-scenario 输出'4-6 情景 + 概率 + 历史案例'。",
+      "notes": "诱饵: 含'周期'关键词但属于单周期定位。SKILL.md A2 段'与相邻 skill 的区分'明确:'detector 答在哪,本 skill 答会怎样'。'在哪'是 detector 归属。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "中国明年 GDP 增速预测多少?2030 年中国能超过美国吗?",
+      "expected_behavior": "不应激活 cycle-correlation-scenario,因为这是单点增速/单点时间点的预测(答'多少数字'),不是多情景概率推演(答'4-6 情景 + 概率')。即使'2030 中国能否超美国'看起来涉及多周期,但其诉求是'单一确定性答案',与本 skill 的'概率权重'输出相悖。SKILL.md B 段明确排除'用户拒绝接受概率概念'。",
+      "notes": "诱饵: 用'2030 超美国'包装成中长期问题,实际诉求是单点确定性预测。应转入更通用的国别经济预测框架或拒绝给确定答案。"
+    },
+    {
+      "id": "should-not-trigger-04",
+      "type": "should_not_trigger",
+      "prompt": "腾讯股票现在能买吗?目标价多少?",
+      "expected_behavior": "不应激活 cycle-correlation-scenario,因为这是个股层面的买卖决策,颗粒度严重错配。本 skill 框架是大周期 + 国别 + 全球秩序,个股是公司层面问题,与三周期耦合无直接因果链。SKILL.md B 段反场景:'单点个股不属于大周期框架'。",
+      "notes": "诱饵: 含'股票/资产'关键词但属于个股决策,与本 skill 大周期框架无对应关系。应转入个股分析或股票估值框架。"
+    },
+    {
+      "id": "should-not-trigger-05",
+      "type": "should_not_trigger",
+      "prompt": "我现在想辞职创业,失败概率有多大?该不该做?",
+      "expected_behavior": "不应激活 cycle-correlation-scenario,因为这是个人层面的微观决策(答'我该怎么办'),应激活 worst-case-decision-guard。两者输出物差异显著:worst-case-decision-guard 输出'个人行动清单',本 skill 输出'宏观情景树'。即使三周期情景可作为输入,但核心问题不是'世界会怎样'而是'我该不该做'。",
+      "notes": "诱饵: 含'概率/该不该做'关键词,但属于个人决策范畴。SKILL.md A2 段'与相邻 skill 的区分':guard 答'我该怎么办',本 skill 答'世界会怎样'。"
+    },
+    {
+      "id": "should-not-trigger-06",
+      "type": "should_not_trigger",
+      "prompt": "美元/日元/欧元的实时汇率是多少?今天该换美元吗?",
+      "expected_behavior": "不应激活 cycle-correlation-scenario,因为这是实时汇率查询 + 短期换汇决策,与本 skill 大周期框架无对应关系。货币信号层面可调 currency-crisis-scanner(单一信号扫描),但本 skill 是综合推演器,处理'货币危机是否会发生'而非'现在汇率多少'。",
+      "notes": "诱饵: 含'美元/货币'关键词但属于实时数据查询。SKILL.md A2 段:'currency-crisis-scanner 答信号,本 skill 把货币信号作为输入之一'。"
+    },
+    {
+      "id": "edge-case-01",
+      "type": "edge_case",
+      "prompt": "未来 5-10 年美股/中国房产/美元资产应该怎么配置?现在该持有还是减仓?",
+      "expected_behavior": "期望判断: 部分激活。本句核心诉求是'配置动作'(答'我该怎么做'),与本 skill 输出'宏观情景树'不完全对齐。期望路径:(a) 先用 cycle-stage-detector 给出三周期定位(约 5-8 句话);(b) 再用本 skill 输出 4-6 情景 + 概率;(c) 末尾给跨情景通用行动(实物 + 跨币种 + 保留退出路径),但**不直接给具体配置比例清单**——因为单点配置清单不属于本 skill 输出物,需转交资产配置框架。",
+      "notes": "边界: 含'周期叠加'成分但核心诉求是'配置动作'。SKILL.md E 步骤 5 输出标准:'跨情景通用行动' ≠ '单一情景配置清单'。这是对'配置 vs 推演'边界的测试。"
+    },
+    {
+      "id": "edge-case-02",
+      "type": "edge_case",
+      "prompt": "中国和美国的周期叠加会怎样?两国同时进入第 5 阶段会引发战争吗?",
+      "expected_behavior": "期望判断: 应激活 cycle-correlation-scenario。这是本 skill 的核心场景(多国三周期交叉),与 SKILL.md A1 案例 3(英美霸权交接)+ 失败模式 #4(分散效应)直接对应。skill 必须:(a) 输出 4-6 情景,其中包含'分散效应缓冲的基准情景'(30-50%)和'分散效应耗尽触发极端情景'(5-15%);(b) 引用英美交接 vs 1914-1945 两段拼接的历史对照;(c) 不能简单回答'会/不会战争'——必须给概率分布。",
+      "notes": "边界: '会引发战争吗'看似单事件预测,实际是'两国三周期叠加情景'的子集,应纳入情景树而非单独回答。这一例验证 skill 对'两国对比'维度的处理能力(单国 vs 多国)。"
+    },
+    {
+      "id": "edge-case-03",
+      "type": "edge_case",
+      "prompt": "未来 5 年内中美之间会不会爆发战争?台湾问题会怎么演化?",
+      "expected_behavior": "期望判断: 模糊归属。本句表面问'单事件预测'(战争是否会发生),实际暗含'外部秩序周期第 5 阶段'判断 + '货币-债务周期 + 内部秩序周期'联动。期望处理:(a) 不应直接答'会/不会'(这是单点预测,与本 skill 概率框架不符);(b) 应转为'外部秩序周期的三情景推演'(和平竞争 40% / 局部冲突 35% / 全面战争 5-10%),每情景配触发阈值;(c) 说明台湾问题在三情景下的演化路径。",
+      "notes": "边界: '战争是否发生'是单事件预测,但其底层是外部秩序周期判断。SKILL.md B 段反场景:'单点预测不应触发本 skill',但'周期框架下的多情景推演'属于本 skill 范畴——关键判断在于'是否给概率分布 vs 单点答案'。"
+    },
+    {
+      "id": "edge-case-04",
+      "type": "edge_case",
+      "prompt": "如果三个周期同时崩盘,我的资产能保留多少?需要现在就全部换成黄金吗?",
+      "expected_behavior": "期望判断: 部分激活。(a) 前半句'三周期同时崩盘'是极端情景标准触发,本 skill 必须输出极端情景(5-15%)的概率 + 触发条件 + 历史案例(1930s 大萧条:全球 GDP 损耗 30%+);(b) 后半句'全部换成黄金'是单点资产配置动作,本 skill 不应直接给出,而是给跨情景通用行动(实物 + 跨币种 + 保留退出路径),并提示'黄金是配置选项之一,但不一定是全部'。",
+      "notes": "边界: 复合问句——前半句'三周期同时崩盘'应 trigger 极端情景;后半句'全换黄金'超出本 skill 输出边界(单点资产配置动作)。验证 skill 能否'拆分问句,只处理属于自己的部分'。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "共 18 条用例: 8 should_trigger + 6 should_not_trigger + 4 edge_case,远超最低要求(5+3+2=10)。所有 should_not_trigger 的诱导测试用例必须 100% 通过(诱饵容错为 0)。should_trigger 与 edge_case 通过率 ≥ 80% 即视为 skill 行为正常。典型措辞源: SKILL.md A2 段(已采用 5 条原文措辞)+ 设计任务扩展候选(再选 3 条)+ 边界场景(4 条)。核心校验点:(1) 必须严格剪枝到 4-6 情景,严禁 10+;(2) 四档概率合计必须 = 100%;(3) 必须区分熊市 20-30% 与极端 5-15% 两档(失败模式 #5);(4) 必须展示三组耦合机制(债务↔内部↔外部)而非仅三周期并列;(5) '在哪'问题归 detector,'会怎样'问题归本 skill,'该怎么办'问题归 guard。"
+}

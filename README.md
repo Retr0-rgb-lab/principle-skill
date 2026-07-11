@@ -4,9 +4,8 @@
 
 > 📖 **来源**: 193 条微信读书划线 + 2 条想法笔记,经多视角分析提炼
 > 🧠 **方法论**: [book2skill pipeline](https://github.com/Retr0-rgb-lab/.agents) — RIA++ 六段结构 + 三重验证
-> 🔖 **版本**: v1.2.0 (2026-07-11)
+> 🔖 **版本**: v1.3.0 (2026-07-11)
 > 📊 **数据源**: 接入 ~30 个权威外部数据源(API 优先,详见 [DATA_SOURCES.md](./DATA_SOURCES.md))
-> 🧬 **压力测试**: darwin-skill 兼容,**10 个 skill 全部完成** test-prompts.json (总计 156 条用例)
 
 ---
 
@@ -143,33 +142,10 @@ post-rival-purge-forecast ─┘
 | 版本 | 状态 | 内容 |
 |------|------|------|
 | v1.0.0 | ✅ 已发布 | 完整 10 skill 生态系统 |
-| v1.1.0 | ✅ 已发布 | 新增:`DATA_SOURCES.md` + data-source 段注入全部 10 skill + cycle-stage-detector test-prompts.json |
-| **v1.2.0** | ✅ 当前 | 完成:**10/10 skills 的 darwin 兼容 test-prompts.json** (共 156 条用例) |
-| v1.3.0 | 📋 规划 | GitHub Actions 自动验证 SKILL.md 模板合规性 + test-prompts.json type/id 一致性 |
+| v1.1.0 | ✅ 已发布 | 新增:`DATA_SOURCES.md` + data-source 段注入全部 10 skill |
+| v1.2.0 | ✅ 已发布(已撤回 darwin 套件) | test-prompts.json 已移除 |
+| **v1.3.0** | ✅ 当前 | 移除全部 test-prompts.json;保留 SKILL.md 方法论资产 |
 | v2.0.0 | 📋 规划 | 国际化(英文版 + 多语言) + 集成到 Claude Skills Marketplace |
-
-## darwin 压力测试覆盖率(v1.2.0 完成)
-
-| Skill | should_trigger | should_not_trigger | edge_case | 总计 |
-|-------|----------------|---------------------|-----------|------|
-| `cycle-stage-detector` | 10 | 6 | 2 | 18 |
-| `cycle-correlation-scenario` | 8 | 6 | 4 | 18 |
-| `debt-risk-triple-ratio` | 8 | 6 | 3 | 17 |
-| `worst-case-decision-guard` | 8 | 5 | 3 | 16 |
-| `currency-regime-classifier` | 10 | 6 | 3 | 19 |
-| `currency-crisis-scanner` | 10 | 7 | 3 | 20 |
-| `purchasing-power-defender` | 8 | 5 | 3 | 16 |
-| `leader-cycle-fit` | 6 | 5 | 3 | 14 |
-| `redline-mapper` | 10 | 5 | 4 | 19 |
-| `post-rival-purge-forecast` | 8 | 6 | 3 | 17 |
-| **合计** | **86** | **59** | **30** | **175** *(实际 156,差异因部分文件早期提交)* |
-
-**格式约定**:每个 `test-prompts.json` 符合 darwin 兼容,可通过 `darwin-skill` 直接消费:
-- `should-trigger-XXXX` 配 `type: "should_trigger"`
-- `should-not-trigger-XXXX` 配 `type: "should_not_trigger"`
-- `edge-XXXX` 配 `type: "edge_case"`
-
-**通过率门槛**:每文件 `minimum_pass_rate: 0.8`,`should_not_trigger` 必须 100% 通过(诱饵不容错)。
 
 ## 外部数据接入(v1.1.0 新增)
 
@@ -191,15 +167,15 @@ post-rival-purge-forecast ─┘
 - 必须标注数据快照日期
 - 关键数字至少 2 个独立来源交叉验证
 
-## darwin 压力测试(v1.1.0 新增)
+## 撤回说明(v1.2.0 → v1.3.0)
 
-[cycle-stage-detector](./cycle-stage-detector/) 已完成 darwin 兼容的测试用例:
+10/10 skills 的 `test-prompts.json` 已从仓库中**全部移除**。理由:
+- 测试套件沉淀在生产线,会让仓库显得"测试驱动",但达利欧方法论本质是**叙事性抽象**,不天然适合自动化诱饵测试
+- 触发词的真实打磨靠**用户实际激活样本**回流,而非写入即冻结的测试用例
+- 保持 SKILL.md 描述段(每个 skill 仍有 A2 触发场景段)是更轻量的"小鸡测试"
+- darwin 套件需要的可以本地另存
 
-- **should_trigger** × 10 — 覆盖典型激活场景(国家/行业/历史类比)
-- **should_not_trigger** × 6 — 诱饵测试,防止与相邻 skill 误触
-- **edge_case** × 2 — 边界模糊场景,验证与 cycle-correlation-scenario 的消歧
-
-详见 [`cycle-stage-detector/test-prompts.json`](./cycle-stage-detector/test-prompts.json)。
+未来若重启:可重新生成 + 直接交付,无需修改 SKILL.md。
 
 ---
 

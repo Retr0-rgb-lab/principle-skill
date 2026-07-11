@@ -4,7 +4,9 @@
 
 > 📖 **来源**: 193 条微信读书划线 + 2 条想法笔记,经多视角分析提炼
 > 🧠 **方法论**: [book2skill pipeline](https://github.com/Retr0-rgb-lab/.agents) — RIA++ 六段结构 + 三重验证
-> 🔖 **版本**: v1.0.0 (2026-07-11)
+> 🔖 **版本**: v1.1.0 (2026-07-11)
+> 📊 **数据源**: 接入 ~30 个权威外部数据源(API 优先,详见 [DATA_SOURCES.md](./DATA_SOURCES.md))
+> 🧬 **压力测试**: darwin-skill 兼容,首批 test-prompts 已为 cycle-stage-detector 完成
 
 ---
 
@@ -140,10 +142,41 @@ post-rival-purge-forecast ─┘
 
 | 版本 | 状态 | 内容 |
 |------|------|------|
-| **v1.0.0** | ✅ 当前 | 完整 10 skill 生态系统 |
-| v1.1.0 | 📋 规划 | 添加 `test-prompts.json` 启用 darwin-skill 自动化压力测试 |
-| v1.2.0 | 📋 规划 | 添加可视化"周期仪表板"(大周期进度条 + 信号灯) |
+| v1.0.0 | ✅ 已发布 | 完整 10 skill 生态系统 |
+| **v1.1.0** | ✅ 当前 | 新增:`DATA_SOURCES.md`(~30 个权威数据源) + `data-source` 段注入全部 10 skill + cycle-stage-detector 的 darwin test-prompts.json |
+| v1.2.0 | 📋 规划 | 给其余 9 个 skill 补 darwin test-prompts.json |
+| v1.3.0 | 📋 规划 | GitHub Actions 自动验证 SKILL.md 模板合规性 |
 | v2.0.0 | 📋 规划 | 国际化(英文版 + 多语言) + 集成到 Claude Skills Marketplace |
+
+## 外部数据接入(v1.1.0 新增)
+
+每个 skill 都内置 `## 数据源指引` 段,使用 WebFetch / WebSearch 工具直接查询权威数据库。
+
+**共享速查表**: [DATA_SOURCES.md](./DATA_SOURCES.md) (~30 个免费 API 来源)
+
+**典型数据流**:
+- 中国宏观 → 国家统计局 NBS
+- 美国宏观 → FRED 圣路易斯联储
+- 跨国对比 → World Bank Open Data
+- 政治体制 → V-Dem / Polity V / WGI
+- 军事实力 → SIPRI
+- 货币储备 → IMF / World Gold Council
+- 武装冲突 → UCDP/PRIO
+
+**调用约定**:
+- 优先 API(JSON) → 其次 HTML 表格
+- 必须标注数据快照日期
+- 关键数字至少 2 个独立来源交叉验证
+
+## darwin 压力测试(v1.1.0 新增)
+
+[cycle-stage-detector](./cycle-stage-detector/) 已完成 darwin 兼容的测试用例:
+
+- **should_trigger** × 10 — 覆盖典型激活场景(国家/行业/历史类比)
+- **should_not_trigger** × 6 — 诱饵测试,防止与相邻 skill 误触
+- **edge_case** × 2 — 边界模糊场景,验证与 cycle-correlation-scenario 的消歧
+
+详见 [`cycle-stage-detector/test-prompts.json`](./cycle-stage-detector/test-prompts.json)。
 
 ---
 

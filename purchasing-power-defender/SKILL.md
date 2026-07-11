@@ -128,6 +128,30 @@ related_skills: [currency-crisis-scanner, debt-risk-triple-ratio, worst-case-dec
 
 ---
 
+## 数据源指引 (Data Sources)
+
+本 skill 的 5 层防御配置需要实时数据,包括各资产类别价格、相关性、通胀数据:
+
+- **FRED 通胀与利率**: https://fred.stlouisfed.org/series/CPIAUCSL — CPI; DGS10 — 10年期国债; TIPS — 实际利率(动态调整层核心)
+- **Yahoo Finance 黄金/白银/大宗商品**: https://finance.yahoo.com/ — 实物资产价格(实物层)
+- **World Gold Council**: https://www.gold.org/goldhub/data — 黄金央行持有趋势(实物层)
+- **FRED 货币供应**: https://fred.stlouisfed.org/series/M2SL — 货币贬值预警(远离纯现金债券层)
+- **World Bank CPI 历史**: https://data.worldbank.org/indicator/FP.CPI.TOTL.ZS — 通胀长期趋势
+- **NBS 中国 CPI**: https://data.stats.gov.cn/ — 中国通胀(本币贬值监测)
+
+**优先级**:
+1. FRED TIPS (实际利率,动态调整层)
+2. Yahoo Finance 黄金 (实物资产基准)
+3. FRED M2 (货币贬值预警)
+
+**查询提示**:
+```
+URL: https://fred.stlouisfed.org/series/CPIAUCSL
+prompt: 提取美国过去 10 年 CPI 数据,计算实际利率 = 名义利率 - 通胀率
+```
+
+更多数据源见 [DATA_SOURCES.md](../../DATA_SOURCES.md) 第 1、2、5 节。
+
 <!-- audit
 created_by: book2skill pipeline
 generated_at: 2026-07-11

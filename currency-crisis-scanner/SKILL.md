@@ -131,6 +131,32 @@ related_skills: [currency-regime-classifier, debt-risk-triple-ratio, purchasing-
 - **Reinhart–Rogoff 违约信号体系**:基于**历史违约数据**,偏事后归纳;本 skill 是**前瞻扫描**,可早于违约事件 1-3 年预警。
 - **Big Mac 指数 / PPP**:衡量**汇率偏离**,是第 4 信号(信心裂缝)的弱代理,远不如远期汇率 + 央行黄金增量直接。
 
+## 数据源指引 (Data Sources)
+
+本 skill 6 信号扫描必须用实时数据,每信号对应特定数据源:
+
+- **FRED 货币与利率系列**: https://fred.stlouisfed.org/series/M2SL — 印钞速度 (信号 2), GFDEGDQ188S — 联邦债务/GDP (信号 1), DGS10 / TIPS 实际利率 (信号 1)
+- **NBS 中国货币供应**: https://data.stats.gov.cn/ — 中国 M2 (信号 2)
+- **BIS 实际有效汇率**: https://www.bis.org/statistics/ — 货币信心 (信号 4)
+- **BIS 信贷/GDP Gap**: https://www.bis.org/statistics/ — 信贷泡沫信号 (信号 1)
+- **Yahoo Finance 黄金/大宗**: https://finance.yahoo.com/ — 实物资产价格 (信号 5)
+- **FRED 房地产价格指数**: https://fred.stlouisfed.org/series/CSUSHPISA — 实物资产信号 (信号 5)
+- **IMF 资本流动数据**: https://data.imf.org/ — 资本外逃信号 (信号 4)
+- **World Bank 黄金溢价数据**: https://www.gold.org/goldhub/data — 黑市汇率代理 (信号 4)
+
+**优先级**(按信号):
+1. FRED M2SL + GFDEGDQ188S (实时监控基础)
+2. BIS REER + 信贷 Gap (中期预警)
+3. Yahoo Finance 黄金 (市场情绪)
+
+**查询提示**:
+```
+URL: https://fred.stlouisfed.org/series/M2SL
+prompt: 提取美国 M2 货币供应过去 10 年同比增速,标出拐点
+```
+
+更多数据源见 [DATA_SOURCES.md](../../DATA_SOURCES.md) 第 1、2、5 节。
+
 ---
 
 <!-- audit

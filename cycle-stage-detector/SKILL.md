@@ -119,6 +119,46 @@ related_skills: [debt-risk-triple-ratio, worst-case-decision-guard]
 
 ---
 
+## 数据源指引 (Data Sources)
+
+本 skill 定位国家/经济体的"大周期阶段"必须依赖实时量化数据,仅靠内部知识极易判错(信号灯 a/b/e 都需权威数据源交叉验证)。调用时使用 WebFetch / WebSearch 从以下权威源按"5 大信号灯 + 债务周期位置"维度拉取最新数据:
+
+- **World Bank Open Data**: https://data.worldbank.org/ — 跨国对比首选,关键指标: `NY.GDP.MKTP.KD.ZG` (GDP 增长率)、`GC.DOD.TOTL.GD.ZS` (政府债务/GDP)、`SI.POV.GINI` (基尼系数),覆盖信号灯 (a)(b)(e)
+- **FRED (St. Louis Fed)**: https://fred.stlouisfed.org/ — 美国深度数据,关键 series: `GFDEGDQ188S` (联邦债务/GDP)、`GDPC1` (实际 GDP)、`CPIAUCSL` (CPI)、`DGS10` (10 年期国债收益率),用于信号灯 (a) 与债务周期位置
+- **NBS 国家统计局**: https://data.stats.gov.cn/ — 中国宏观核心指标 (GDP / CPI / 失业率 / 财政收入 / 地方政府债),用于信号灯 (a)(c) 中国侧
+- **IMF WEO**: https://data.imf.org/ — 全球经济展望与债务/GDP 历史对比,辅助信号灯 (a)(e) 跨国预测
+- **V-Dem 民主指数**: https://www.v-dem.net/ — 第 5 阶段量化核心: 评估政治极化、媒体失真、司法独立,关键子项 v2x_polyarchy / v2xme_altinf,用于信号灯 (b)(d)
+- **Polity V 政治体制评分**: https://www.systemicpeace.org/ — Polity score (-10 威权 ~ +10 民主) + 政变/内战事件流,量化内部秩序第 5→6 阶段
+- **BIS Credit-to-GDP Gap**: https://www.bis.org/statistics/ — 长期债务周期定位关键指标 (信贷 / GDP gap + Debt service ratio),判停"扩张期 / 顶部 / 去杠杆"
+
+**优先级**(从 5 盏信号灯 + 债务周期覆盖度排序):
+
+1. **World Bank Open Data** — 跨国对比首选,一站覆盖 a/b/e 三盏灯 + 多国历史
+2. **FRED** — 美国深度数据,信号灯 a 与债务周期位置的权威源
+3. **V-Dem + Polity V** — 政治极化量化,第 5 阶段判断必备(单凭 GDP 必然漏判)
+
+备用: NBS (中国侧指标)、IMF WEO (跨国预测)、BIS (债务周期定位)、Freedom House (政治自由度交叉验证)
+
+**查询提示**:
+
+```
+# 示例 1: 跨国债务 + 基尼对比(信号灯 a + b)
+URL: https://api.worldbank.org/v2/country/USA;CHN;GBR;JPN/indicator/GC.DOD.TOTL.GD.ZS;SI.POV.GINI?format=json&per_page=30
+prompt: 提取美中英日过去 30 年的中央政府债务/GDP 比率与基尼系数,输出表格 + 数据快照日期
+
+# 示例 2: 美国债务周期位置(信号灯 a + 长期债务周期)
+URL: https://fred.stlouisfed.org/series/GFDEGDQ188S
+prompt: 提取美国联邦债务/GDP 最新值 + 最近 10 年趋势,标注历史峰值年份(1946 / 2020 等)
+
+# 示例 3: 第 5 阶段政治极化(信号灯 b + d)
+URL: https://www.v-dem.net/
+prompt: 提取美国 v2x_polyarchy (选举民主指数) 与 v2xme_altinf (替代信息源) 2010-2024 年值,说明趋势
+```
+
+更多数据源(政治自由度、冲突事件、市场资产等)见 [DATA_SOURCES.md](../../DATA_SOURCES.md) 第 1-4 节。
+
+---
+
 <!-- audit
 created_by: book2skill pipeline
 generated_at: 2026-07-11

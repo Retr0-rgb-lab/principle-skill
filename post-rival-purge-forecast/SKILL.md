@@ -126,6 +126,31 @@ related_skills: [redline-mapper, cycle-stage-detector]
 - **Cox 的历史唯物主义地缘框架**: 强调生产关系与阶级;本 skill 以利益结构与权力斗争为主轴,不引入阶级分析。
 - **Schelling 焦点理论**: 研究协调点与可信承诺;本 skill 更宽,涵盖联盟重组与外部介入。
 
+## 数据源指引 (Data Sources)
+
+本 skill 评估战后权力洗牌需要历史数据 + 实时制度指标:
+
+- **UCDP/PRIO 武装冲突数据**: https://ucdp.uu.se/ — 历史清洗烈度参考(年均死亡数、持续时间)
+- **V-Dem 民主指数**: https://www.v-dem.net/ — 战后政权性质演变(从威权到民主的转型速度)
+- **Polity V 历史档案**: https://www.systemicpeace.org/ — 政变、政权更迭事件库
+- **World Bank GDP 历史**: https://data.worldbank.org/ — 战后重建速度(以重建期 GDP 增长率衡量)
+- **IMF 债务可持续性分析**: https://www.imf.org/external/np/pubs/ft/dsa/ — 战后财政能力
+- **SIPRI 军费**: https://www.sipri.org/databases/milex — 战胜方联盟军事实力变化
+- **CIA World Factbook**: https://www.cia.gov/the-world-factbook/ — 政府类型变化历史
+
+**优先级**:
+1. UCDP (历史清洗案例库)
+2. Polity V (政权更迭记录)
+3. World Bank GDP (重建速度)
+
+**查询提示**(对每个新政权):
+```
+URL: https://www.systemicpeace.org/polity/polity4.htm
+prompt: 提取 [国家名] 过去 50 年政权更迭记录,标记与共敌消失事件的相关性
+```
+
+更多数据源见 [DATA_SOURCES.md](../../DATA_SOURCES.md) 第 3、4 节。
+
 ---
 
 <!-- audit

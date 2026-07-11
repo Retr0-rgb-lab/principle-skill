@@ -147,6 +147,30 @@ related_skills: [currency-crisis-scanner, debt-risk-triple-ratio]
 
 ---
 
+## 数据源指引 (Data Sources)
+
+本 skill 判定货币体系类型必须用实时数据,包括硬通货锚定、央行发行安排、货币信心信号:
+
+- **IMF IFS (国际储备)**: https://data.imf.org/ — 各国黄金/外汇储备
+- **World Gold Council 央行持金**: https://www.gold.org/goldhub/data — 央行黄金持有量
+- **BIS 央行资产负债表**: https://www.bis.org/statistics/ — 货币发行机制
+- **IMF COFER**: https://data.imf.org/ — 储备货币构成(美元/欧元/人民币占比)
+- **FRED M2 / 实际利率**: https://fred.stlouisfed.org/series/M2SL — 货币供给与利率
+- **NBS 货币供应**: https://data.stats.gov.cn/ — 中国 M0/M1/M2
+
+**优先级**(按判断步骤):
+1. IMF COFER + BIS 央行资产负债表(体系分类核心)
+2. World Gold Council(锚定判据)
+3. FRED/NBS 货币供应(信心指标)
+
+**查询提示**:
+```
+URL: https://www.gold.org/goldhub/data
+prompt: 提取 [国家名] 央行黄金持有量过去 5 年变化
+```
+
+更多数据源见 [DATA_SOURCES.md](../../DATA_SOURCES.md) 第 2 节。
+
 <!-- audit
 created_by: book2skill pipeline
 generated_at: 2026-07-11

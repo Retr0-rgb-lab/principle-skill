@@ -1,0 +1,136 @@
+{
+  "skill": "cycle-stage-detector",
+  "version": "1.1.0",
+  "source_book": "《原则:应对变化中的世界秩序》— 瑞·达利欧",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "这是不是泡沫顶部?",
+      "expected_behavior": "应激活 cycle-stage-detector,基于 5 大顶部信号灯(高负债/政治鸿沟/教育基建下滑/内部冲突/外部对手崛起)逐项打分,给出国家所处阶段标签(第 1-6 阶段),输出'周期阶段诊断卡':阶段 + 5 盏灯状态 + 债务周期位 + 历史类比。",
+      "notes": "直接采用 SKILL.md A2 段典型措辞 #1,是最短最高频的国家/行业顶部判断句。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们现在处在周期的哪个阶段?",
+      "expected_behavior": "应激活 cycle-stage-detector,要求用户先指明国家/经济体(若未指明则默认美国,因为书中第 44 章专门论述美国),然后给出内部秩序 6 阶段定位 + 长期债务周期 4 位置定位。",
+      "notes": "SKILL.md A2 段典型措辞 #2,通用宏观定位句。即使主体未指明,skill 框架仍能驱动用户澄清。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "美国现在像历史上的什么时候?",
+      "expected_behavior": "应激活 cycle-stage-detector,匹配 1-2 个历史阶段类比(如 1929 末期/1971 布雷顿森林倒塌/2008 危机后),逐项说明'像'与'不像'(债务结构、政治极化、对手崛起等)。若用户未指明宏观指标,需用 5 大信号灯反向推导。",
+      "notes": "SKILL.md A2 段典型措辞 #3 的具体化版本,触发历史类比维度(A1 案例 1/2/3 都依赖此能力)。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "大英帝国当年是怎么衰落的?美国会不会重演?",
+      "expected_behavior": "应激活 cycle-stage-detector,先用英国案例(第 44 章类推 + 第 31 章 6 阶段框架)说明衰落路径(债务化战争 + 殖民地独立 + 货币地位丧失),再定位美国当前 5 大信号灯亮了多少盏,对比'像/不像',给出美国所处阶段标签。",
+      "notes": "SKILL.md A2 段典型措辞 #4,把'帝国会不会衰落'落到具体帝国(英国)+ 具体新主体(美国)以减少歧义。这是 A1 案例 2 的典型应用。"
+    },
+    {
+      "id": "should-trigger-05",
+      "type": "should_trigger",
+      "prompt": "大周期会重演吗?这次和以前有什么不一样?",
+      "expected_behavior": "应激活 cycle-stage-detector,从书中第 31 章'螺旋上行 + 周期反复'框架回答:周期会重演(结构不变),但轨迹上行(具体国家不同)。需说明'哪些维度会重复'(高负债 / 极化 / 内部冲突)'哪些是新的变量'(AI / 数字货币 / 全球化逆转)。",
+      "notes": "SKILL.md A2 段典型措辞 #5 + '这次有什么不一样'的反向校验句,设计为反'线性外推这次不一样'失败模式。"
+    },
+    {
+      "id": "should-trigger-06",
+      "type": "should_trigger",
+      "prompt": "美国大概到了周期哪个阶段?美元还能信多久?",
+      "expected_behavior": "应激活 cycle-stage-detector,直接给出达利欧自评'美国约处于自身大周期 70% 位置'(第 44 章),然后回答美元储备货币地位衰减时间(书中论断:'储备货币寿命长于国家实力' → 用荷兰盾/英镑寿命类比)。",
+      "notes": "扩展候选 #6 + #10 合并。复合问句体现用户既问'阶段'又问'货币寿命',skill 应同时覆盖。"
+    },
+    {
+      "id": "should-trigger-07",
+      "type": "should_trigger",
+      "prompt": "中国现在是大周期的什么位置?还会继续上升吗?",
+      "expected_behavior": "应激活 cycle-stage-detector,定位中国大周期位置(书中第 45 章主线 + 6 阶段框架),结合 5 大信号灯评估是否进入第 4 阶段(过度与泡沫),重点指出(a)总债务/GDP、(e)外部挑战两个灯的状态。",
+      "notes": "扩展候选 #7,触发了中国侧特殊处理(NBS 数据源 + 第 45 章王朝更替类比),不是简单镜像美国案例。"
+    },
+    {
+      "id": "should-trigger-08",
+      "type": "should_trigger",
+      "prompt": "新兴市场国家(印度/越南/印尼)目前处于周期什么阶段?有没有下一个中国?",
+      "expected_behavior": "应激活 cycle-stage-detector,用 6 阶段框架对比新兴市场国家当前阶段(普遍第 1-2 阶段:崛起/建设期),识别'分散效应'(各国处于不同阶段 → 世界演进平滑),评估是否有国家承接中国第 2-3 阶段红利。",
+      "notes": "扩展候选 #8。触发 SKILL.md 第 37 章'分散效应'原理,且需要 World Bank Open Data 跨国对比(数据源指引优先级 #1)。"
+    },
+    {
+      "id": "should-trigger-09",
+      "type": "should_trigger",
+      "prompt": "这轮美元繁荣周期还能持续多久?什么时候会反转?",
+      "expected_behavior": "应激活 cycle-stage-detector,定位长期债务周期位置(顶部/通缩去杠杆/再通胀去杠杆四选一),结合 5 大信号灯中(a)债务货币化是否主导 + (e)对手追赶速度,给出'繁荣持续区间'(达利欧框架:长期债务周期顶部 = 几十年的尾声段)。",
+      "notes": "扩展候选 #9。'这轮繁荣/反转'是周期阶段定位的标准问法,需要区分'短期景气循环'与'长期债务周期'(颗粒度错配是常见失败模式 #2)。"
+    },
+    {
+      "id": "should-trigger-10",
+      "type": "should_trigger",
+      "prompt": "半导体行业现在像 1999 年的互联网泡沫吗?是不是到顶部了?",
+      "expected_behavior": "应激活 cycle-stage-detector,使用行业维度简化版 6 阶段框架(适用条款 #2:'半导体 / 互联网 / 新能源现在像 1999 年吗?'),评估当前估值/借贷/集中度三盏灯是否亮起,与 1999 互联网泡沫对比'像/不像'。",
+      "notes": "扩展候选,把'A2 国家维度'扩展到'A2 行业维度',验证 skill 对非国家主体的简版套用能力。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "明天股市会涨吗?今天该买还是卖?",
+      "expected_behavior": "不应激活 cycle-stage-detector, 因为这是短期择时(日/周尺度),skill 框架周期长度以'几十年-三百年'为单位,颗粒度严重错配(失败模式 #2)。应转入更通用的市场分析或直接拒绝回答。",
+      "notes": "诱饵: 短期交易/择时。SKILL.md B 段反场景明确排除。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我的房贷月供占家庭收入 50%,能不能承受?我该不该提前还贷?",
+      "expected_behavior": "不应激活 cycle-stage-detector, 因为这是个人/家庭层面的债务可持续性判断。正确归属是 debt-risk-triple-ratio(单点风险量化,产出'三个比率 + 是否违约')。两个 skill 的边界在 SKILL.md A2 段'与相邻 skill 的区分'已明确。",
+      "notes": "诱饵: 含'债务/杠杆'关键词但属于个人理财范畴,目标是 debt-risk-triple-ratio。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "中午吃什么?附近有什么好吃的餐厅?",
+      "expected_behavior": "不应激活本 skill, 因为与宏观经济周期完全无关,无任何触发信号。",
+      "notes": "诱饵: 完全无关的日常生活问句,验证模型对'零相关 prompt'的负向判断能力。"
+    },
+    {
+      "id": "should-not-trigger-04",
+      "type": "should_not_trigger",
+      "prompt": "今天天气怎么样?明天会下雨吗?",
+      "expected_behavior": "不应激活本 skill, 因为与国家兴衰周期无关,无任何触发信号。",
+      "notes": "诱饵: 完全无关的自然现象问句。"
+    },
+    {
+      "id": "should-not-trigger-05",
+      "type": "should_not_trigger",
+      "prompt": "比特币什么时候崩盘?这次熊市会跌到多少?",
+      "expected_behavior": "不应激活 cycle-stage-detector, 因为加密货币被 SKILL.md B 段反场景明确排除(框架未覆盖,作者盲点:'加密资产/数字货币不在达利欧的硬通货→纸币→法定货币三阶段框架内')。",
+      "notes": "诱饵: 表面看是'资产/货币周期'问题,实际属于框架外资产类别。需直接拒绝调用并说明原因。"
+    },
+    {
+      "id": "should-not-trigger-06",
+      "type": "should_not_trigger",
+      "prompt": "中国今年 GDP 增速会达到多少?明年经济形势怎么看?",
+      "expected_behavior": "不应激活 cycle-stage-detector, 因为这是 1-2 年期的短期增速预测,颗粒度与百年大周期严重错配。'明年经济形势'属于景气循环,不是大周期阶段,失败模式 #2。",
+      "notes": "诱饵: 把'经济预测'伪装成'周期判断',实际是年度 GDP 增速短期问题。"
+    },
+    {
+      "id": "edge-case-01",
+      "type": "edge_case",
+      "prompt": "未来 5-10 年美股/中国房产/美元资产应该怎么配置?现在该持有还是减仓?",
+      "expected_behavior": "期望判断: 部分激活。先用 cycle-stage-detector 给出'当前周期阶段定位'(约 5 句话:阶段 + 5 盏灯 + 债务位 + 类比),明确'5-10 年布局'属于定位应用而非定位本身。然后转交 cycle-correlation-scenario(或类似配置框架)做具体配置推演。**当前 skill 不应单独处理,应标记为'阶段定位 + 跨周期资产配置'复合任务**。",
+      "notes": "边界: 含'阶段'查询成分但核心诉求是'配置动作'。SKILL.md A1 案例 3 结论明确:'关键是用定位指导未来 5-10 年的资产/职业/移民布局'——因此本 skill 只输出定位图,不应直接给配置清单。"
+    },
+    {
+      "id": "edge-case-02",
+      "type": "edge_case",
+      "prompt": "中国是不是到顶了?接下来会像日本失去的 30 年吗?",
+      "expected_behavior": "期望判断: 应激活 cycle-stage-detector(因为是明确的国家阶段判断 + 历史类比请求)。先定位中国大周期位置(第 45 章 + 5 盏灯评估),再回答'是否会像日本'(历史类比维度:债务结构、人口、外部环境三个维度对比)。本例与 edge-01 不同——'是不是到顶了'是阶段诊断而非配置,所以归属于本 skill。",
+      "notes": "边界: 与 'edge-case-01' 形成对照——同样是关于'中国到顶'的话题,前者是'是否到顶'(诊断)→ detector;后者是'配置动作'(行动)→ correlation-scenario。skill 区分的关键在于用户问的是'我们在哪'(诊断)还是'该怎么做'(行动)。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "共 12 条用例: 10 should_trigger + 6 should_not_trigger + 2 edge_case,远超最低要求(5+3+2=10)。所有 should_not_trigger 的诱导测试用例必须 100% 通过(诱饵容错为 0)。should_trigger 与 edge_case 通过率 ≥ 80% 即视为 skill 行为正常。典型措辞源: SKILL.md A2 段(已采用 5 条原始措辞)+ 设计任务扩展候选(再选 5 条)。"
+}

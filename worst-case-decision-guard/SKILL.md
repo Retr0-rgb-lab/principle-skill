@@ -105,6 +105,48 @@ related_skills: [cycle-stage-detector, debt-risk-triple-ratio]
 
 ---
 
+## 数据源指引 (Data Sources)
+
+本 skill 主要是**过程性方法论**(穷举 → 红线 → 分散 → 压力测试),**核心输入由用户提供**:决策描述、可承受底线、可能的失败模式、对冲偏好。框架本身不依赖外部数据即可运行。
+
+但在**红线概率评估**和**压力测试**环节,需要外部历史数据为"低概率出局事件"提供基线参考,典型场景:
+
+- **"找不到工作"红线** → 历史失业率峰值(评估极端情境概率)
+- **"房贷断供 / 房产清零"红线** → 房价历史最大跌幅、持续阴跌时长
+- **"投资组合归零"红线** → 资产历史最大回撤 (max drawdown)
+- **"跨国家庭迁移失败"红线** → 目的国失业率 / 经济波动
+
+### 推荐数据源
+
+| 场景 | 数据源 | URL |
+|------|--------|-----|
+| 美国失业率历史 | FRED UNRATE | https://fred.stlouisfed.org/series/UNRATE |
+| 中国失业率历史 | 国家统计局 NBS | https://data.stats.gov.cn/ |
+| 全球失业率对比 | World Bank | https://data.worldbank.org/indicator/SL.UEM.TOTL.ZS |
+| 美国房价历史 | FRED CSUSHPISA | https://fred.stlouisfed.org/series/CSUSHPISA |
+| 资产历史最大回撤 | Yahoo Finance | https://finance.yahoo.com/ |
+
+### 优先级
+
+1. **FRED / NBS**(失业率 + 房价历史时间序列)→ 用于量化红线历史频率
+2. **Yahoo Finance**(个股 / 指数历史回撤)→ 用于评估"组合归零"概率
+3. **World Bank**(跨国对比)→ 用于跨境迁移决策
+
+### 查询模板
+
+```
+URL: https://fred.stlouisfed.org/series/UNRATE
+prompt: 提取美国失业率过去 50 年最高值、平均值、最新值,以及过去 3 次峰值(1982 / 2009 / 2020)的持续时间和峰值水平
+```
+
+### 局限与降级
+
+- 用户拒绝提供决策细节 → 仅给通用框架模板,不强求概率数字
+- 数据源访问失败 → 用相邻时期数据 + 历史趋势推断,标注"未实时核实"
+- 个体尺度数据缺失(如"个人行业失业率")→ 用宏观数据 + 用户自身行业知识组合
+
+更多数据源见 [DATA_SOURCES.md](../../DATA_SOURCES.md)。
+
 <!-- audit
 created_by: book2skill pipeline
 generated_at: 2026-07-11

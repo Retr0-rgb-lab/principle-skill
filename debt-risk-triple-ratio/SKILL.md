@@ -139,6 +139,31 @@ related_skills: [cycle-stage-detector, worst-case-decision-guard]
 
 ---
 
+## 数据源指引 (Data Sources)
+
+本 skill 的三维比率(债务/硬通货、债务/现金流、利息 vs 贬值)必须用实时数据计算。调用时使用 WebFetch / WebSearch 从以下源获取最新数据:
+
+- **World Bank IDS (外债数据)**: https://datatopics.worldbank.org/debt/ — 各国外债总额/短期外债/外储
+- **IMF Data**: https://data.imf.org/ — 国际储备(国际投资头寸)
+- **FRED 利率系列**: https://fred.stlouisfed.org/ — FEDFUNDS, DGS10, TIPS 实际利率
+- **NBS 中国财政**: https://data.stats.gov.cn/ — 中国财政收入、地方政府债
+- **财政部**: http://www.mof.gov.cn/ — 中国政府债务月度数据
+- **BEA 美国**: https://www.bea.gov/ — 美国政府收入支出
+- **BIS REER**: https://www.bis.org/statistics/ — 实际有效汇率(贬值信号)
+
+**优先级**(按维度):
+- 硬通货维度: World Bank IDS > IMF Data
+- 现金流维度: NBS / 财政部 > BEA
+- 利息维度: FRED > BIS REER
+
+**查询提示**:
+```
+URL: https://datatopics.worldbank.org/debt/
+prompt: 提取 [国家名] 最新外债总额、短长期外债、外汇储备,输出表格
+```
+
+更多数据源见 [DATA_SOURCES.md](../../DATA_SOURCES.md) 第 1、2 节。
+
 <!-- audit -->
 - created: 2026-07-11
 - author: Fixer (subagent)

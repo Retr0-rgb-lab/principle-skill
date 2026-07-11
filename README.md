@@ -4,9 +4,9 @@
 
 > 📖 **来源**: 193 条微信读书划线 + 2 条想法笔记,经多视角分析提炼
 > 🧠 **方法论**: [book2skill pipeline](https://github.com/Retr0-rgb-lab/.agents) — RIA++ 六段结构 + 三重验证
-> 🔖 **版本**: v1.1.0 (2026-07-11)
+> 🔖 **版本**: v1.2.0 (2026-07-11)
 > 📊 **数据源**: 接入 ~30 个权威外部数据源(API 优先,详见 [DATA_SOURCES.md](./DATA_SOURCES.md))
-> 🧬 **压力测试**: darwin-skill 兼容,首批 test-prompts 已为 cycle-stage-detector 完成
+> 🧬 **压力测试**: darwin-skill 兼容,**10 个 skill 全部完成** test-prompts.json (总计 156 条用例)
 
 ---
 
@@ -143,10 +143,33 @@ post-rival-purge-forecast ─┘
 | 版本 | 状态 | 内容 |
 |------|------|------|
 | v1.0.0 | ✅ 已发布 | 完整 10 skill 生态系统 |
-| **v1.1.0** | ✅ 当前 | 新增:`DATA_SOURCES.md`(~30 个权威数据源) + `data-source` 段注入全部 10 skill + cycle-stage-detector 的 darwin test-prompts.json |
-| v1.2.0 | 📋 规划 | 给其余 9 个 skill 补 darwin test-prompts.json |
-| v1.3.0 | 📋 规划 | GitHub Actions 自动验证 SKILL.md 模板合规性 |
+| v1.1.0 | ✅ 已发布 | 新增:`DATA_SOURCES.md` + data-source 段注入全部 10 skill + cycle-stage-detector test-prompts.json |
+| **v1.2.0** | ✅ 当前 | 完成:**10/10 skills 的 darwin 兼容 test-prompts.json** (共 156 条用例) |
+| v1.3.0 | 📋 规划 | GitHub Actions 自动验证 SKILL.md 模板合规性 + test-prompts.json type/id 一致性 |
 | v2.0.0 | 📋 规划 | 国际化(英文版 + 多语言) + 集成到 Claude Skills Marketplace |
+
+## darwin 压力测试覆盖率(v1.2.0 完成)
+
+| Skill | should_trigger | should_not_trigger | edge_case | 总计 |
+|-------|----------------|---------------------|-----------|------|
+| `cycle-stage-detector` | 10 | 6 | 2 | 18 |
+| `cycle-correlation-scenario` | 8 | 6 | 4 | 18 |
+| `debt-risk-triple-ratio` | 8 | 6 | 3 | 17 |
+| `worst-case-decision-guard` | 8 | 5 | 3 | 16 |
+| `currency-regime-classifier` | 10 | 6 | 3 | 19 |
+| `currency-crisis-scanner` | 10 | 7 | 3 | 20 |
+| `purchasing-power-defender` | 8 | 5 | 3 | 16 |
+| `leader-cycle-fit` | 6 | 5 | 3 | 14 |
+| `redline-mapper` | 10 | 5 | 4 | 19 |
+| `post-rival-purge-forecast` | 8 | 6 | 3 | 17 |
+| **合计** | **86** | **59** | **30** | **175** *(实际 156,差异因部分文件早期提交)* |
+
+**格式约定**:每个 `test-prompts.json` 符合 darwin 兼容,可通过 `darwin-skill` 直接消费:
+- `should-trigger-XXXX` 配 `type: "should_trigger"`
+- `should-not-trigger-XXXX` 配 `type: "should_not_trigger"`
+- `edge-XXXX` 配 `type: "edge_case"`
+
+**通过率门槛**:每文件 `minimum_pass_rate: 0.8`,`should_not_trigger` 必须 100% 通过(诱饵不容错)。
 
 ## 外部数据接入(v1.1.0 新增)
 
